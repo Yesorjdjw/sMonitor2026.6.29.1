@@ -1,0 +1,38 @@
+# C++ binaries and object files
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+
+# Qt Creator user file (contains local absolute paths)
+*.pro.user
+*.pro.user.*
+
+# Qt generated source files
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile
+Makefile.Debug
+Makefile.Release
+
+# Qt build directories (Creator standard build output)
+build-*/
+
+# Visual Studio text solutions and project files (if using MSVC)
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Local IDE folders
+.qmake.stash
+.vscode/
+.idea/
+
+# OS specific files
+Thumbs.db
+.DS_Store
+EOF
