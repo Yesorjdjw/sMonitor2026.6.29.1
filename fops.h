@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QListWidgetItem>
 #include <QTimer>
+#include <QPushButton>
+#include <QInputDialog>
 #include <opencv2/opencv.hpp>
 
 namespace Ui {
@@ -23,6 +25,7 @@ private slots:
     void onFileClicked(QListWidgetItem *item);
     void onPlayVideo();
     void onDeleteFile();
+    void onRenameFile();
     void onRefresh();
     void onFilterAll();
     void onFilterPhoto();
@@ -41,6 +44,8 @@ private:
     cv::VideoCapture *m_vidCap;
     cv::Mat           m_vidFrame;
     bool              m_playing;
+
+    QPushButton *m_renameBtn;
 
     void scanFiles();
     void showPreview(const QString &path);

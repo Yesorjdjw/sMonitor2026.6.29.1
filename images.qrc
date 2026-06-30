@@ -27,5 +27,8 @@
         <file>images/icon_clock.svg</file>
         <file>images/icon_save.svg</file>
         <file>images/icon_undo.svg</file>
+        <file>images/file.png</file>
+        <file>images/exit.png</file>
+        <file>images/picBt.png</file>
     </qresource>
 </RCC>

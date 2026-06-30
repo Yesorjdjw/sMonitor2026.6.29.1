@@ -87,7 +87,8 @@ public:
 "    background: transparent;\n"
 "}\n"
 "QLabel#flashOverlay_lb {\n"
-"    background: rgba(255,255,255,0.85);\n"
+"    back"
+                        "ground: rgba(255,255,255,0.85);\n"
 "    border-radius: 18px;\n"
 "}\n"
 "\n"
@@ -107,8 +108,7 @@ public:
 "    border: 1px solid rgba(255,255,255,0.15);\n"
 "    border-radius: 14px;\n"
 "}\n"
-"QPush"
-                        "Button#turn_up_bt:hover,\n"
+"QPushButton#turn_up_bt:hover,\n"
 "QPushButton#turn_down_bt:hover,\n"
 "QPushButton#turn_left_bt:hover,\n"
 "QPushButton#turn_right_bt:hover {\n"
@@ -116,7 +116,8 @@ public:
 "    border-color: rgba(255,255,255,0.3);\n"
 "}\n"
 "\n"
-"/* ===== \344\270\255\345\277\203\345\244\215\344\275\215 ===== */\n"
+"/* ===== \344\270\255\345\277\203\345\244\215\344\275\215 ===== *"
+                        "/\n"
 "QPushButton#turn_reset_bt {\n"
 "    background: rgba(255,59,48,0.2);\n"
 "    border: 1px solid rgba(255,59,48,0.4);\n"
@@ -132,6 +133,7 @@ public:
 "    background: rgba(255,255,255,0.08);\n"
 "    border: 1px solid rgba(255,255,255,0.15);\n"
 "    border-radius: 16px;\n"
+"    font-size: 12px;\n"
 "}\n"
 "QPushButton#get_photo_bt:hover,\n"
 "QPushButton#get_vedio_bt:hover {\n"
@@ -147,8 +149,8 @@ public:
 "    background: transparent;\n"
 "}\n"
 "\n"
-"/* ===== \345\272\225\351\203\250\345"
-                        "\257\274\350\210\252 - Apple\345\274\217\347\262\227\345\234\206\350\247\222\345\215\241\347\211\207 ===== */\n"
+"/* ===== \345\272\225\351\203\250\345\257\274\350\210\252 - Apple\345\274\217\347\262"
+                        "\227\345\234\206\350\247\222\345\215\241\347\211\207 ===== */\n"
 "QPushButton#swt_Control_bt,\n"
 "QPushButton#exp_Check_bt,\n"
 "QPushButton#file_Manage_bt,\n"
@@ -175,7 +177,7 @@ public:
         timeWatermark_lb = new QLabel(menu);
         timeWatermark_lb->setObjectName(QStringLiteral("timeWatermark_lb"));
         timeWatermark_lb->setGeometry(QRect(344, 76, 330, 28));
-        timeWatermark_lb->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        timeWatermark_lb->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
         camLabel_lb = new QLabel(menu);
         camLabel_lb->setObjectName(QStringLiteral("camLabel_lb"));
         camLabel_lb->setGeometry(QRect(32, 396, 64, 24));
@@ -187,7 +189,6 @@ public:
         flashOverlay_lb = new QLabel(menu);
         flashOverlay_lb->setObjectName(QStringLiteral("flashOverlay_lb"));
         flashOverlay_lb->setGeometry(QRect(20, 68, 654, 362));
-        flashOverlay_lb->hide();
         ctl_Panel_sw = new QStackedWidget(menu);
         ctl_Panel_sw->setObjectName(QStringLiteral("ctl_Panel_sw"));
         ctl_Panel_sw->setGeometry(QRect(700, 70, 314, 362));
@@ -248,9 +249,8 @@ public:
         get_vedio_bt->setIconSize(QSize(24, 24));
         recTime_lb = new QLabel(page);
         recTime_lb->setObjectName(QStringLiteral("recTime_lb"));
-        recTime_lb->setGeometry(QRect(164, 338, 110, 22));
+        recTime_lb->setGeometry(QRect(174, 338, 94, 22));
         recTime_lb->setAlignment(Qt::AlignCenter);
-        recTime_lb->hide();
         ctl_Panel_sw->addWidget(page);
         page_2 = new QWidget();
         page_2->setObjectName(QStringLiteral("page_2"));

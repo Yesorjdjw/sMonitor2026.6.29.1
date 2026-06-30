@@ -29,6 +29,28 @@ fops::fops(QWidget *parent) :
     connect(ui->delBtn, SIGNAL(clicked()), this, SLOT(onDeleteFile()));
     connect(ui->refreshBtn, SIGNAL(clicked()), this, SLOT(onRefresh()));
 
+    /* 底部三个按钮对齐文件列表宽度 (24~284 = 260px) */
+    ui->delBtn->setGeometry(24, 504, 84, 36);
+    ui->refreshBtn->setGeometry(200, 504, 84, 36);
+
+    /* 改名按钮 */
+    m_renameBtn = new QPushButton(QString::fromUtf8("改名"), this);
+    m_renameBtn->setObjectName(QStringLiteral("renameBtn"));
+    m_renameBtn->setGeometry(112, 504, 84, 36);
+    m_renameBtn->setStyleSheet(
+        "QPushButton {"
+        "  background: #f0ad4e;"
+        "  color: #fff;"
+        "  border: none;"
+        "  border-radius: 4px;"
+        "  font-size: 12px;"
+        "}"
+        "QPushButton:disabled {"
+        "  background: #bbb;"
+        "}");
+    m_renameBtn->setEnabled(false);
+    connect(m_renameBtn, SIGNAL(clicked()), this, SLOT(onRenameFile()));
+
     ui->hintLabel->hide();
     resetPreview();
     scanFiles();
@@ -44,6 +66,7 @@ void fops::resetPreview()
 {
     ui->preview->setText(QString::fromUtf8("← 选择文件预览"));
     ui->playBtn->setEnabled(false);
+    m_renameBtn->setEnabled(false);
 }
 
 /* ========== 文件扫描 ========== */
@@ -116,6 +139,7 @@ void fops::onFileClicked(QListWidgetItem *item)
     if (path.isEmpty()) return;
 
     m_curPath = path;
+    m_renameBtn->setEnabled(true);
     showPreview(path);
 }
 
@@ -148,7 +172,7 @@ void fops::showPreview(const QString &path)
                        frame.step, QImage::Format_RGB888);
             ui->preview->setPixmap(
                 QPixmap::fromImage(img).scaled(ui->preview->size(),
-                                               Qt::KeepAspectRatio,
+                                               Qt::IgnoreAspectRatio,
                                                Qt::SmoothTransformation));
         } catch (const cv::Exception &e) {
             ui->preview->setText(QString::fromUtf8("视频格式错误"));
@@ -167,7 +191,7 @@ void fops::showPreview(const QString &path)
             return;
         }
         ui->preview->setPixmap(pm.scaled(ui->preview->size(),
-                                         Qt::KeepAspectRatio,
+                                         Qt::IgnoreAspectRatio,
                                          Qt::SmoothTransformation));
     }
 }
@@ -220,7 +244,7 @@ void fops::onVideoTick()
                    m_vidFrame.step, QImage::Format_RGB888);
         ui->preview->setPixmap(
             QPixmap::fromImage(img).scaled(ui->preview->size(),
-                                           Qt::KeepAspectRatio,
+                                           Qt::IgnoreAspectRatio,
                                            Qt::SmoothTransformation));
     } catch (const cv::Exception &e) {
         stopVideo();
@@ -261,6 +285,57 @@ void fops::onDeleteFile()
     m_curPath.clear();
     resetPreview();
     scanFiles();
+}
+
+/* ========== 改名 ========== */
+
+void fops::onRenameFile()
+{
+    if (m_curPath.isEmpty()) return;
+    stopVideo();
+
+    QFileInfo fi(m_curPath);
+    QString oldName = fi.fileName();
+    QString dirPath = fi.absolutePath();
+
+    bool ok;
+    QString newName = QInputDialog::getText(
+        this,
+        QString::fromUtf8("重命名文件"),
+        QString::fromUtf8("新文件名:"),
+        QLineEdit::Normal,
+        oldName,
+        &ok);
+
+    if (!ok || newName.isEmpty() || newName == oldName) return;
+
+    // 禁止非法字符
+    if (newName.contains('/') || newName.contains('\\')) {
+        qWarning("fops: invalid chars in new name");
+        return;
+    }
+
+    QString newPath = dirPath + "/" + newName;
+
+    if (QFile::rename(m_curPath, newPath)) {
+        qDebug() << "Renamed:" << m_curPath << "->" << newPath;
+        m_curPath = newPath;
+    } else {
+        qWarning("fops: failed to rename %s", qPrintable(m_curPath));
+    }
+
+    m_renameBtn->setEnabled(true);
+    scanFiles();
+
+    // 选中改名后的文件
+    QFileInfo newFi(newPath);
+    for (int i = 0; i < ui->fileList->count(); i++) {
+        QListWidgetItem *item = ui->fileList->item(i);
+        if (item->data(Qt::UserRole).toString() == newPath) {
+            ui->fileList->setCurrentItem(item);
+            break;
+        }
+    }
 }
 
 void fops::onRefresh()
